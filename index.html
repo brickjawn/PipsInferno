@@ -305,9 +305,24 @@
                 return new Tone.Loop(time => synth.triggerAttackRelease(notes[Math.floor(Math.random()*notes.length)], "1m", time), "1m");
             };
             levelMusicTracks[9] = () => { // Kaiman's Lair (Boss)
-                const lead = new Tone.Synth({oscillator:{type:"pwm", modulationFrequency:0.8}, envelope:{attack:0.01,decay:0.2,sustain:0.1,release:0.3}, volume:-12}).toDestination();
-                const bass = new Tone.MonoSynth({oscillator:{type:"sawtooth"}, filter:{type:"lowpass", Q:2, rolloff:-24}, filterEnvelope:{attack:0.01,decay:0.1,sustain:0.2,release:0.5, baseFrequency:50, octaves:3}, volume:-10}).toDestination();
-                const drums = new Tone.NoiseSynth({noise:{type:"white"}, envelope:{attack:0.001,decay:0.05,sustain:0}, volume:-18}).toDestination();
+                const lead = new Tone.Synth({
+                    oscillator:{type:"pwm", modulationFrequency:0.8},
+                    envelope:{attack:0.01,decay:0.2,sustain:0.1,release:0.3},
+                    volume:-30  // Reduced from -22
+                }).toDestination();
+                
+                const bass = new Tone.MonoSynth({
+                    oscillator:{type:"sawtooth"},
+                    filter:{type:"lowpass", Q:2, rolloff:-24},
+                    filterEnvelope:{attack:0.01,decay:0.1,sustain:0.2,release:0.5, baseFrequency:50, octaves:3},
+                    volume:-28  // Reduced from -20
+                }).toDestination();
+                
+                const drums = new Tone.NoiseSynth({
+                    noise:{type:"white"},
+                    envelope:{attack:0.001,decay:0.05,sustain:0},
+                    volume:-35  // Reduced from -28
+                }).toDestination();
                 
                 const leadPattern = new Tone.Sequence((time,note) => lead.triggerAttackRelease(note, "16n", time), ["G3", "Ab3", "G3", "F3", "Eb3", "D3", "C3"], "8n");
                 const bassPattern = new Tone.Sequence((time,note) => bass.triggerAttackRelease(note, "4n", time), ["C2", "C2", "G1", "G1"], "4n");
@@ -682,12 +697,20 @@
                 },
                 // Level 9 (Kaiman's Throne - Judecca/Center of Hell) - BOSS FIGHT
                 {
-                    platforms: [ {x: 0, y: 450, w: 800, h: 50, color:"#100000"} ], 
+                    platforms: [ 
+                        {x: 0, y: 450, w: 800, h: 50, color:"#100000"},  // Ground
+                        {x: 100, y: 350, w: 120, h: 20, color:"#200000"}, // Left platform
+                        {x: 300, y: 300, w: 120, h: 20, color:"#200000"}, // Middle-left platform
+                        {x: 500, y: 250, w: 120, h: 20, color:"#200000"}, // Middle-right platform
+                        {x: 650, y: 350, w: 120, h: 20, color:"#200000"}, // Right platform
+                        {x: 400, y: 180, w: 150, h: 20, color:"#200000"}  // Top platform for boss fight
+                    ], 
                     getCollectibles: function() { return []; }, 
                     enemies: [], 
                     isBossLevel: true, 
                     finishLine: 10000, 
-                    playerStart: {x: 100, y: 380}, pitType: 'fire' 
+                    playerStart: {x: 100, y: 380},
+                    pitType: 'fire'
                 }
             ];
         }
